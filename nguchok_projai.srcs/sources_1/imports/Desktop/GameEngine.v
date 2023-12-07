@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 module GameEngine(
        input switchClock,
-       input UP,DOWN,LEFT,RIGHT,RESET,ENTER,GAMEMODE,
+       input UP,DOWN,LEFT,RIGHT,RESET,ENTER,GAMEMODE,DIFFICULTY,
        input [9:0]X,Y,
        output reg isDead,isStart,
        output reg [9:0]SnakeCount,
@@ -26,11 +26,14 @@ module GameEngine(
     parameter SNAKE_START_POINT_Y   = 240;    
     parameter APPLE_START_POINT_X   = 400;
     parameter APPLE_START_POINT_Y   = 200;
+    parameter EASY                  = 4;
+    parameter HARD                  = 2;
     
     
     reg [3:0]moveDivide;
     reg snakeBodyReg;
     reg isMove;
+    reg [3:0]MOD;
 //    reg isDead;
     reg isCollision;
     reg found;
@@ -52,6 +55,7 @@ module GameEngine(
         isCollision = 0;
         SnakeCount  = 0;
         moveDivide  = 0;
+        MOD         = 0;
         SnakeSize   = SNAKE_INIT_SIZE;
         snakeBodyReg = 0;
         direction   = D_NULL;
@@ -70,6 +74,7 @@ module GameEngine(
             if(ENTER) begin
                 isStart <= 0 ;
             end
+            MOD <= DIFFICULTY ? EASY : HARD;
         end
         else begin
             moveDivide <= moveDivide + 1;
@@ -127,7 +132,7 @@ module GameEngine(
             else if(LEFT  && direction != D_RIGHT)  direction <= D_LEFT;
             else if(UP    && direction != D_DOWN)   direction <= D_UP;
             else if(DOWN  && direction != D_UP)     direction <= D_DOWN;
-            if(moveDivide%2 == 0) begin // mod mak snake slow, mod noi snake fast
+            if(moveDivide%MOD == 0 ) begin // mod mak snake slow, mod noi snake fast
                 if(isMove && direction == D_LEFT)         SnakeX[0] <= SnakeX[0] - (WIDTH * 2);
                 else if(isMove && direction == D_RIGHT)   SnakeX[0] <= SnakeX[0] + (WIDTH * 2);
                 else if(isMove && direction == D_UP)      SnakeY[0] <= SnakeY[0] - (WIDTH * 2);

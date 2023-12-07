@@ -3,7 +3,7 @@
 module topModule(
     input clock,
     input UP,DOWN,LEFT,RIGHT,RESET,ENTER,
-    input GAMEMODE,
+    input GAMEMODE,DIFFICULTY,
     output [11:0]RGB,
     output Hsync,Vsync,
     output reg UP_LED,DOWN_LED,LEFT_LED,RIGHT_LED,RESET_LED,ENTER_LED,
@@ -79,6 +79,7 @@ module topModule(
         .isDead(isDead),
         .isStart(isStart),
         .GAMEMODE(GAMEMODE),
+        .DIFFICULTY(DIFFICULTY),
         .field(obj[0]),
         .DeadText(obj[1]),
         .StartText(obj[2]),
