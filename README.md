@@ -1,1 +1,1 @@
-### Snake Game on VGA display using Verilog 🐍
+# FPGA-based Snake Game with VGA display using Verilog 🐍
